@@ -22,7 +22,6 @@ public class duxiesuo {
                     @Override
                     public void run() {
                         lock.put(temp+"",temp);
-
                     }
                 },i+"").start();
             }

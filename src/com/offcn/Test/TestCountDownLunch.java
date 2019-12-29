@@ -22,7 +22,7 @@ public class TestCountDownLunch {
         }
 
         //这个是main线程的。 所以要等上面的同学都走光了之后才能执行这个操作需要将其awite
-        try {
+       try {
             countDownLatch.await();
         } catch (InterruptedException e) {
             e.printStackTrace();

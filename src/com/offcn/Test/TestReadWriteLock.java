@@ -13,56 +13,71 @@ public class TestReadWriteLock {
     public static void main(String[] args) {
 
         ReadAndWriteLock lock = new ReadAndWriteLock();
-        for (int i = 1; i<6;i++){final int temp = i;
+        for (int i = 1; i < 6; i++) {
+            final int temp = i;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    lock.put(temp+"",temp);
+                    lock.put(temp + "", temp);
 
                 }
-            },i+"").start();
+            }, i + "").start();
         }
 
-        for (int i = 1; i<6;i++){final int temp = i;
+        for (int i = 1; i < 6; i++) {
+            final int temp = i;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    lock.get(temp+"");
+
+                    lock.get(temp + "");
                 }
-            },i+"").start();
+            }, i + "").start();
         }
     }
 }
 
 
-class ReadAndWriteLock{
-    private volatile Map<String,Object> map = new HashMap<>();
+class ReadAndWriteLock {
+    private volatile Map<String, Object> map = new HashMap<>();
     //读写锁
     private ReadWriteLock rwLock = new ReentrantReadWriteLock();
 
 
     //写入法
-    public void put(String key,Object value){
-        rwLock.writeLock().lock();try{
-        System.out.println(Thread.currentThread().getName()+" 正在写入！！！！"+key);
-        map.put(key,value); try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void put(String key, Object value) {
+        rwLock.writeLock().lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + " 正在写入！！！！" + key);
+            map.put(key, value);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + "  写入完成！！！！！" + key);
+        } catch (Exception e) {
+        } finally {
+            rwLock.writeLock().unlock();
         }
-        System.out.println(Thread.currentThread().getName()+"  写入完成！！！！！"+key);}catch (Exception e){}finally {
-           rwLock.writeLock().unlock();}
 
     }
 
     //读取方法
-    public void get(String key) {rwLock.readLock().lock();try{
-     System.out.println(Thread.currentThread().getName() + "  正在读取！！！"+key);
-        Object o = map.get(key); try {
-            TimeUnit.SECONDS.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void get(String key) {
+        rwLock.readLock().lock();
+        try {
+            System.out.println(Thread.currentThread().getName() + "  正在读取！！！" + key);
+            Object o = map.get(key);
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + "读取完成！！！！！" + key);
+        } catch (Exception e) {
+        } finally {
+            rwLock.readLock().unlock();
         }
-        System.out.println(Thread.currentThread().getName() + "读取完成！！！！！"+key);}catch (Exception e){}finally{rwLock.readLock().unlock();}
     }
 }

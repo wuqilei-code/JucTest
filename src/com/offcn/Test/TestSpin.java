@@ -7,7 +7,6 @@ public class TestSpin {
 
     AtomicReference<Thread> atomicReference = new AtomicReference<>();
 
-
     //自旋锁，使用的atomicReference 如果有线程占用了该锁，他就会在这里判断该线程是否解除了对锁的占用
     //如果解除了就获取该锁，反之就继续进行判断！！使用的while的循环进行判断
     public void myLock(){
@@ -49,10 +48,7 @@ public class TestSpin {
                 spin.myUnlock();
             }
         },"tq").start();
-
     }
-
-
 }
 
 
