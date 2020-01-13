@@ -13,6 +13,11 @@ public class TestReadWriteLock {
     public static void main(String[] args) {
 
         ReadAndWriteLock lock = new ReadAndWriteLock();
+
+
+
+
+
         for (int i = 1; i < 6; i++) {
             final int temp = i;
             new Thread(new Runnable() {
